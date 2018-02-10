@@ -123,21 +123,15 @@ public class ShopingCenter {
     }
 
     public Set<String> getAllShopTypes() {
-        Set<String> allShopTypes = new HashSet<String >();
-        for (Shop shop: shopList) {
-            allShopTypes.addAll(shop.getType());
-        }
-        return allShopTypes;
+        return this.shopList.stream()
+                .flatMap(shop -> shop.getTypes().stream())
+                .collect(Collectors.toSet());
     }
 
     public Set<String> getAllProductTypes() {
-        Set<String> allProductTypes = new HashSet<String >();
-        for (Shop shop: shopList) {
-            for (ProductDetails productDetails: shop.getProducts()) {
-                allProductTypes.add(productDetails.getProduct().getType());
-            }
-        }
-        return allProductTypes;
+        return this.getAllProducts().stream()
+                .map(productDetails -> productDetails.getProduct().getType())
+                .collect(Collectors.toSet());
     }
 
     // ********** End of Methods - Shops ***********

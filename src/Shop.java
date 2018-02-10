@@ -16,7 +16,7 @@ public class Shop {
     private String name;
     private Address address;
     private List<ProductDetails> products;
-    private List<String> type;
+    private List<String> types;
     private List<Service> services;
     private List<ServiceDetails> currentServicesUnavailable;
     private List<Employee> employees;
@@ -32,7 +32,7 @@ public class Shop {
         this.employees = new LinkedList<Employee>();
         this.products = new LinkedList<ProductDetails>();
         this.services = new LinkedList<Service>();
-        this.type = new LinkedList<String>();
+        this.types = new LinkedList<String>();
         this.currentServicesUnavailable = new LinkedList<>();
         this.id = Shop.nextId++;
     }
@@ -65,8 +65,8 @@ public class Shop {
         return employees;
     }
 
-    public List<String> getType() {
-        return type;
+    public List<String> getTypes() {
+        return types;
     }
 
     public int getId() {
