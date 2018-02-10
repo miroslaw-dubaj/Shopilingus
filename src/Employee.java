@@ -2,6 +2,8 @@ public class Employee {
     private String name;
     private String[] skills;
     private boolean isAvailable;
+    private int id;
+    private static int nextId = 0;
 
     public String getName() {
         return name;
@@ -9,6 +11,14 @@ public class Employee {
 
     public String[] getSkills() {
         return skills;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isAvailable() {
@@ -23,5 +33,6 @@ public class Employee {
         this.name = name;
         this.skills = skills;
         this.isAvailable = isAvailable;
+        this.id = Employee.nextId;
     }
 }

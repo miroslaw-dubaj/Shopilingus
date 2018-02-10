@@ -7,7 +7,7 @@ public class Main {
         // Constructor for Service - String 'name', double 'price', Integer 'duration', String 'skillNeeded'
         // ServiceDetails Constructor - Service 'service', Employee 'name', Integer 'duration'
         // Constructor for Product - String 'name', double 'price', String 'type', String 'size', double 'weight'
-        Shop Centero = new Shop("Centero", "Ul. Gałęzowskiego 5");
+        Shop Centero = new Shop("Centero", 1,2);
         Centero.addProduct(new Product("Soda", 3.5, "Beverage", "1 L", 1.0, 0.23), 2);
         Centero.hire(new Employee("John Doe", new String[]{"Cashier", "Manager", "Knifemaking"}, true));
         Centero.addService(new Service("Sharpening", 10, 1, "Knifemaking"));
@@ -52,6 +52,21 @@ public class Main {
                 }
             } else if (data.equals("menu")) {
                 displayMenu(name);
+//            } else if (data.equals("add product")) {
+//                System.out.println("Add product: (blueprint: name, price, type, size, weight, tax");
+//                System.out.println("Input 'create' to finish");
+//                String productName;
+//                double productPrice;
+//                String type;
+//                String size;
+//                double weight;
+//                double tax;
+//
+//                while (!data.equals("create")) {
+//                    data = read.nextLine().toLowerCase();
+//                    //String name, double price, String type, String size, double weight, double tax)
+//                    name.addProduct();
+//                }
             } else if (!data.equals("quit")) {
                 System.out.println("Wrong input.");
             }

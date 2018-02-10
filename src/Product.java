@@ -5,9 +5,23 @@ public class Product {
     private String size;
     private double weight;
     private double tax;
+    private int id;
+    private static int nextId = 0;
 
     public String getName() {
         return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Product(String name, double price) {
@@ -21,6 +35,7 @@ public class Product {
         this.size = size;
         this.weight = weight;
         this.tax = tax;
+        this.id = Product.nextId;
     }
 
 

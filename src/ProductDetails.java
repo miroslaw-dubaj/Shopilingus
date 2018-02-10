@@ -18,4 +18,8 @@ public class ProductDetails {
         this.product = product;
         this.quantity = quantity;
     }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }
