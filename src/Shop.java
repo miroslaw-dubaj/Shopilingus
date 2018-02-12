@@ -16,7 +16,7 @@ public class Shop {
     private String name;
     private Address address;
     private List<ProductDetails> products;
-    private List<String> types;
+    private List<ShopTypes> types;
     private List<Service> services;
     private List<ServiceDetails> currentServicesUnavailable;
     private List<Employee> employees;
@@ -32,7 +32,7 @@ public class Shop {
         this.employees = new LinkedList<Employee>();
         this.products = new LinkedList<ProductDetails>();
         this.services = new LinkedList<Service>();
-        this.types = new LinkedList<String>();
+        this.types = new LinkedList<ShopTypes>();
         this.currentServicesUnavailable = new LinkedList<>();
         this.id = Shop.nextId++;
     }
@@ -65,7 +65,7 @@ public class Shop {
         return employees;
     }
 
-    public List<String> getTypes() {
+    public List<ShopTypes> getTypes() {
         return types;
     }
 
@@ -254,6 +254,7 @@ public class Shop {
                         employees.get(j).setAvailable(false);
                     }
                 }
+                //TODO Add date to record begining of service to get remaining time for service to end.
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     @Override

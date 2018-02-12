@@ -56,7 +56,11 @@ public class ShopingCenter {
         this.name = name;
     }
 
-// ********** End of G & S ***********
+    public List<Shop> getShopList() {
+        return shopList;
+    }
+
+    // ********** End of G & S ***********
 
 // ********** Methods - CRUD for Shops **********
     public void addShop(Shop newShop) {
@@ -122,13 +126,13 @@ public class ShopingCenter {
         return allServices;
     }
 
-    public Set<String> getAllShopTypes() {
+    public Set<ShopTypes> getAllShopTypes() {
         return this.shopList.stream()
                 .flatMap(shop -> shop.getTypes().stream())
                 .collect(Collectors.toSet());
     }
 
-    public Set<String> getAllProductTypes() {
+    public Set<ProductTypes> getAllProductTypes() {
         return this.getAllProducts().stream()
                 .map(productDetails -> productDetails.getProduct().getType())
                 .collect(Collectors.toSet());

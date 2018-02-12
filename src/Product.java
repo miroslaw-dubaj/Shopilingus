@@ -10,9 +10,7 @@ public class Product {
 
     private String name;
     private double price;
-    private String type;
-    private String size;
-    private double weight;
+    private ProductTypes type;
     private double tax;
     private int id;
 
@@ -21,15 +19,13 @@ public class Product {
     // ********** Constructor for Product **********
 
     public Product(String name, double price) {
-        this(name, price, "product", "N/A", 0.0, 0.23);
+        this(name, price, ProductTypes.UNKNOWN, 0.23);
     }
 
-    public Product(String name, double price, String type, String size, double weight, double tax){
+    public Product(String name, double price, ProductTypes type, double tax){
         this.name = name;
         this.price = price;
         this.type = type;
-        this.size = size;
-        this.weight = weight;
         this.tax = tax;
         this.id = Product.nextId;
     }
@@ -42,7 +38,11 @@ public class Product {
         return name;
     }
 
-    public String getType() {
+    public String getFullName() {
+        return name;
+    }
+
+    public ProductTypes getType() {
         return type;
     }
 
@@ -52,6 +52,14 @@ public class Product {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public double getNettoPrice() {
+        return price;
+    }
+
+    public double getBruttoPrice() {
+        return price + (price * tax);
     }
 
     // ********** End of Getters & Setters **********
