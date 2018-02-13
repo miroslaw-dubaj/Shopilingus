@@ -21,7 +21,7 @@ public class Employee {
         this.name = name;
         this.skills = skills;
         this.isAvailable = isAvailable;
-        this.id = Employee.nextId;
+        this.id = Employee.nextId++;
     }
 
     // ********** End of Constructor for Employee **********

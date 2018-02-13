@@ -52,21 +52,6 @@ public class Main {
                 }
             } else if (data.equals("menu")) {
                 displayMenu(name);
-//            } else if (data.equals("add product")) {
-//                System.out.println("Add product: (blueprint: name, price, type, size, weight, tax");
-//                System.out.println("Input 'create' to finish");
-//                String productName;
-//                double productPrice;
-//                String type;
-//                String size;
-//                double weight;
-//                double tax;
-//
-//                while (!data.equals("create")) {
-//                    data = read.nextLine().toLowerCase();
-//                    //String name, double price, String type, String size, double weight, double tax)
-//                    name.addProduct();
-//                }
             } else if (!data.equals("quit")) {
                 System.out.println("Wrong input.");
             }

@@ -23,7 +23,7 @@ public class Service {
         this.price = price;
         this.duration = duration;
         this.skillNeeded = skillNeeded;
-        this.id = Service.nextId;
+        this.id = Service.nextId++;
     }
 
     // ************ End of Constructors for Service **********

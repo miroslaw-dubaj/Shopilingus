@@ -20,14 +20,6 @@ public class ShopingCenter {
     private OpeningHours timeOpen;
     private int id;
 
-    public ShopingCenter(String name, String address, int openTime, int closeTime) {
-        this.name = name;
-        this.address = new Address(address);
-        this.shopList = new LinkedList<Shop>();
-        this.timeOpen = new OpeningHours(openTime, closeTime) ;
-        this.id = ShopingCenter.nextId++;
-    }
-
 // ********** End of fields ************
 
 // ********** Constructors for ShoppingCenter ***********
@@ -37,7 +29,11 @@ public class ShopingCenter {
         this.address = address;
         this.shopList = new LinkedList<Shop>();
         this.timeOpen = timeOpen;
-        this.id = ShopingCenter.nextId;
+        this.id = ShopingCenter.nextId++;
+    }
+
+    public ShopingCenter(String name, String address, int openTime, int closeTime) {
+        this(name, new Address(address), new OpeningHours(openTime, closeTime));
     }
 
 // *********** End of Constructors ***********
@@ -64,9 +60,9 @@ public class ShopingCenter {
     }
 
     public Shop getShop(int shopId) {
-        for (int i = 0; i < shopList.size(); i++) {
-            if (shopList.get(i).getId() == shopId) {
-                return shopList.get(i);
+        for (Shop aShopList : shopList) {
+            if (aShopList.getId() == shopId) {
+                return aShopList;
             }
         }
         System.out.println("Shop not found.");
@@ -81,9 +77,9 @@ public class ShopingCenter {
 
     public void deleteShop(int id) {
         Shop toDelete = null;
-        for (int i = 0; i < shopList.size(); i++) {
-            if (shopList.get(i).getId() == id) {
-                toDelete = shopList.get(i);
+        for (Shop aShopList : shopList) {
+            if (aShopList.getId() == id) {
+                toDelete = aShopList;
             }
         }
         if (toDelete != null) {

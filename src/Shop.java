@@ -92,10 +92,10 @@ public class Shop {
     }
 
     public void addProduct(Product product, double quantity) {
-        if (findProductById(product.getId()) != null) {
-            findProductById(product.getId()).setQuantity(quantity);
-        }
-        if (findProductById(product.getId()) == null) {
+        ProductDetails productAvailable = findProductById(product.getId());
+        if (productAvailable != null) {
+            productAvailable.setQuantity(quantity);
+        } else {
             ProductDetails newProduct = new ProductDetails(product, quantity);
             products.add(newProduct);
         }

@@ -31,7 +31,7 @@ public class Product {
         this.size = size;
         this.weight = weight;
         this.tax = tax;
-        this.id = Product.nextId;
+        this.id = Product.nextId++;
     }
 
     // ********** End of Constructors for Product **********
