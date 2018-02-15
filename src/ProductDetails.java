@@ -1,6 +1,22 @@
 public class ProductDetails {
+
+    // ************ Fields **********
+
     private Product product;
     private double quantity;
+
+    // ************ End of Fields **********
+
+    // ************ Constructors for Product Details **********
+
+    public ProductDetails(Product product, double quantity) {
+        this.product = product;
+        this.quantity = quantity;
+    }
+
+    // ************ End of Constructors for Product Details **********
+
+    // ************ Getters & Setters **********
 
     public Product getProduct() {
         return product;
@@ -14,8 +30,10 @@ public class ProductDetails {
         this.quantity = quantity;
     }
 
-    public ProductDetails(Product product, double quantity) {
+    public void setProduct(Product product) {
         this.product = product;
-        this.quantity = quantity;
     }
+
+    // ************ End of Getters & Setters **********
+
 }

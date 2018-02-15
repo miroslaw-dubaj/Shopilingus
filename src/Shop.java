@@ -4,28 +4,53 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Shop {
+
+    // *********** Static fields **********
+
+    private static int nextId = 0;
+
+    // *********** End of Static fields ***********
+
+    // *********** Fields ************
+
     private String name;
-    private String address;
+    private Address address;
     private List<ProductDetails> products;
-    private String[] type;
+    private List<String> types;
     private List<Service> services;
     private List<ServiceDetails> currentServicesUnavailable;
     private List<Employee> employees;
+    private int id;
+
+    // ********** End of fields ************
+
+    // ********** Constructors for Shop ***********
+
+    public Shop(String name, int floor, int box) {
+        this.name = name;
+        this.address = new Address(floor, box);
+        this.employees = new LinkedList<Employee>();
+        this.products = new LinkedList<ProductDetails>();
+        this.services = new LinkedList<Service>();
+        this.types = new LinkedList<String>();
+        this.currentServicesUnavailable = new LinkedList<>();
+        this.id = Shop.nextId++;
+    }
+
+    // *********** End of Constructors ***********
+
+    // ************ Getters and Setters **********
 
     public String getName() {
         return name;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
     public List<ProductDetails> getProducts() {
         return products;
-    }
-
-    public String[] getType() {
-        return type;
     }
 
     public List<Service> getServices() {
@@ -40,41 +65,128 @@ public class Shop {
         return employees;
     }
 
-    // Constructor for Product - String 'name', double 'price', String 'type', String 'size', double 'weight'
-    public void addProduct(Product product, double quantity) {
-        ProductDetails newProduct = new ProductDetails(product,quantity);
-        products.add(newProduct);
+    public List<String> getTypes() {
+        return types;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    // ********** End of G & S ***********
+
+    // ********** Methods & CRUD for Products **********
+    // Constructor for Product - String 'name', double 'price', String 'type', String 'size', double 'weight'
+
+    private ProductDetails findProductById(int id) {
+        for (ProductDetails productDetails : products) {
+            if (productDetails.getProduct().getId() == id) {
+                return productDetails;
+            }
+        }
+        return null;
+    }
+
+    public void addProduct(Product product, double quantity) {
+        ProductDetails productAvailable = findProductById(product.getId());
+        if (productAvailable != null) {
+            productAvailable.setQuantity(quantity);
+        } else {
+            ProductDetails newProduct = new ProductDetails(product, quantity);
+            products.add(newProduct);
+        }
+    }
+
+    public void deleteProduct(int id) {
+        ProductDetails toDelete = findProductById(id);
+        if (toDelete != null) {
+            products.remove(toDelete);
+        }
+    }
+
+    public Product getProduct(int id) {
+        ProductDetails searchedProduct = findProductById(id);
+        if (searchedProduct != null) {
+            return searchedProduct.getProduct();
+        }
+        return null;
+    }
+
+    public void updateProduct(int id, Product product) {
+        ProductDetails toUpdate = findProductById(id);
+        if (toUpdate != null) {
+            product.setId(id);
+            toUpdate.setProduct(product);
+        }
+    }
+
+    public boolean isProductAvailable(int id) {
+        for (ProductDetails product : products) {
+            if (product.getProduct().getId() == id && product.getQuantity() > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void buyProduct(int id, double quantity) {
+        if (isProductAvailable(id)) {
+            for (ProductDetails product : products) {
+                if (product.getProduct().getId() == id) {
+                    product.setQuantity(product.getQuantity() - quantity);
+                }
+            }
+        }
+    }
+
+    // ********** End of Methods & CRUD for Products ***********
+
+    // ********** Methods & CRUD for Employees **********
     // Constructor for Employee - string 'name', string array 'skills', boolean 'isAvailable'
     public void hire(Employee employee) {
         employees.add(employee);
     }
 
-    public void fire(String name) {
-        for (int i = 0; i < employees.size(); i++) {
-            if (name.equals(employees.get(i).getName())) {
-                employees.remove(i);
-            }
+    public void fire(int id) {
+        Employee employeeToFire = findEmployeeById(id);
+        if (employeeToFire != null) {
+            employees.remove(employeeToFire);
         }
     }
 
-    // Constructor for Service - String 'name', double 'price', Integer 'duration', String 'skillNeeded'
-    public void addService(Service service) {
-        services.add(service);
+    public Employee findEmployeeById(int id) {
+        for (Employee employee: employees) {
+            if (employee.getId() == id) {
+                return employee;
+            }
+        }
+        return null;
     }
 
     public boolean isEmployeeAvailable(String skillNeeded) {
-        for (int i = 0; i < employees.size(); i++) {
-            if (employees.get(i).isAvailable()) {
-                for (int j = 0; j < employees.get(i).getSkills().length; j++) {
-                    if (employees.get(i).getSkills()[j] == skillNeeded) {
+        for (Employee employee : employees) {
+            if (employee.isAvailable()) {
+                for (int j = 0; j < employee.getSkills().length; j++) {
+                    if (employee.getSkills()[j].equals(skillNeeded)) {
                         return true;
                     }
                 }
             }
         }
         return false;
+    }
+
+    public void updateEmployee(int id, Employee employee) {
+        Employee employeeToUpdate = findEmployeeById(id);
+        if (employeeToUpdate != null) {
+            employee.setId(id);
+            employees.remove(employeeToUpdate);
+            employees.add(employee);
+        }
     }
 
     public Employee FindEmployeeAvailable(String skillNeeded) {
@@ -90,26 +202,44 @@ public class Shop {
         return null;
     }
 
-    public boolean isProductAvailable(String name) {
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getProduct().getName() == name && products.get(i).getQuantity() > 0) {
-                return true;
-            }
-        }
-        return false;
+    public int getNumberOfEmployees() {
+        return employees.size();
     }
 
-    public void buyProduct(String name) {
-        if (isProductAvailable(name)) {
-            for (int i = 0; i < products.size(); i++) {
-                if (products.get(i).getProduct().getName() == name) {
-                    products.get(i).setQuantity(products.get(i).getQuantity() - 1);
-                }
+    // ********** End of Methods & CRUD for Employees ***********
+
+    // ********** Methods - Crud for Services **********
+    // Constructor for Service - String 'name', double 'price', Integer 'duration', String 'skillNeeded'
+    public void addService(Service service) {
+        services.add(service);
+    }
+
+    public Service findServiceById(int id) {
+        for (Service service: services) {
+            if (service.getId() == id) {
+                return service;
             }
+        }
+        return null;
+    }
+
+    public void deleteService(int id) {
+        Service toDelete = findServiceById(id);
+        if (toDelete != null) {
+            services.remove(toDelete);
         }
     }
 
-                // ServiceDetails Constructor - Service 'service', Employee 'name', Integer 'duration', Integer 'timeOfStart'
+    public void updateService(int id, Service service) {
+        Service toUpdate = findServiceById(id);
+        if (toUpdate != null) {
+            services.remove(toUpdate);
+            service.setId(id);
+            services.add(service);
+        }
+    }
+
+    // ServiceDetails Constructor - Service 'service', Employee 'name', Integer 'duration', Integer 'timeOfStart'
     public void buyService(String name) {
         int serviceDuration = 0;
         for (int i = 0; i < services.size(); i++) {
@@ -131,21 +261,11 @@ public class Shop {
                         employeeToWork.setAvailable(true);
                         currentServicesUnavailable.remove(newService);
                     }
-                }, serviceDuration*60*1000);
+                }, serviceDuration * 60 * 1000);
             }
         }
     }
 
-
-
-     public Shop(String name, String address) {
-        this.name = name;
-        this.address = address;
-        this.employees = new LinkedList<>();
-        this.products = new LinkedList<>();
-        this.services = new LinkedList<>();
-        this.type = null;
-        this.currentServicesUnavailable = new LinkedList<>();
-    }
+    // ********** End of Methods & CRUD for Services ***********
 }
 
