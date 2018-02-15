@@ -76,12 +76,7 @@ public class ShopingCenter {
     }
 
     public void deleteShop(int id) {
-        Shop toDelete = null;
-        for (Shop aShopList : shopList) {
-            if (aShopList.getId() == id) {
-                toDelete = aShopList;
-            }
-        }
+        Shop toDelete = getShop(id);
         if (toDelete != null) {
             shopList.remove(toDelete);
         }
@@ -97,8 +92,10 @@ public class ShopingCenter {
     }
 
     public void displayShopList() {
-        for (int i = 0; i < shopList.size(); i++) {
-            System.out.println(i + ". " + shopList.get(i).getName() + " - ID: " + shopList.get(i).getId());
+        int i = 1;
+        for (Shop shop : shopList) {
+            System.out.println(i + ". " + shop.getName() + " - ID: " + shop.getId());
+            i++;
         }
     }
 

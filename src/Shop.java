@@ -103,8 +103,9 @@ public class Shop {
 
     public void deleteProduct(int id) {
         ProductDetails toDelete = findProductById(id);
-        if (toDelete != null)
+        if (toDelete != null) {
             products.remove(toDelete);
+        }
     }
 
     public Product getProduct(int id) {
@@ -123,20 +124,20 @@ public class Shop {
         }
     }
 
-    public boolean isProductAvailable(String name) {
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getProduct().getName() == name && products.get(i).getQuantity() > 0) {
+    public boolean isProductAvailable(int id) {
+        for (ProductDetails product : products) {
+            if (product.getProduct().getId() == id && product.getQuantity() > 0) {
                 return true;
             }
         }
         return false;
     }
 
-    public void buyProduct(String name) {
-        if (isProductAvailable(name)) {
-            for (int i = 0; i < products.size(); i++) {
-                if (products.get(i).getProduct().getName() == name) {
-                    products.get(i).setQuantity(products.get(i).getQuantity() - 1);
+    public void buyProduct(int id, double quantity) {
+        if (isProductAvailable(id)) {
+            for (ProductDetails product : products) {
+                if (product.getProduct().getId() == id) {
+                    product.setQuantity(product.getQuantity() - quantity);
                 }
             }
         }
@@ -151,8 +152,9 @@ public class Shop {
     }
 
     public void fire(int id) {
-        if (findEmployeeById(id) != null) {
-            employees.remove(findEmployeeById(id));
+        Employee employeeToFire = findEmployeeById(id);
+        if (employeeToFire != null) {
+            employees.remove(employeeToFire);
         }
     }
 
@@ -166,10 +168,10 @@ public class Shop {
     }
 
     public boolean isEmployeeAvailable(String skillNeeded) {
-        for (int i = 0; i < employees.size(); i++) {
-            if (employees.get(i).isAvailable()) {
-                for (int j = 0; j < employees.get(i).getSkills().length; j++) {
-                    if (employees.get(i).getSkills()[j] == skillNeeded) {
+        for (Employee employee : employees) {
+            if (employee.isAvailable()) {
+                for (int j = 0; j < employee.getSkills().length; j++) {
+                    if (employee.getSkills()[j].equals(skillNeeded)) {
                         return true;
                     }
                 }
@@ -179,9 +181,10 @@ public class Shop {
     }
 
     public void updateEmployee(int id, Employee employee) {
-        if (findEmployeeById(id) != null) {
+        Employee employeeToUpdate = findEmployeeById(id);
+        if (employeeToUpdate != null) {
             employee.setId(id);
-            employees.remove(findEmployeeById(id));
+            employees.remove(employeeToUpdate);
             employees.add(employee);
         }
     }
@@ -200,11 +203,7 @@ public class Shop {
     }
 
     public int getNumberOfEmployees() {
-        int counter = 0;
-        for (Employee employee: employees) {
-            counter++;
-        }
-        return counter;
+        return employees.size();
     }
 
     // ********** End of Methods & CRUD for Employees ***********
@@ -234,7 +233,7 @@ public class Shop {
     public void updateService(int id, Service service) {
         Service toUpdate = findServiceById(id);
         if (toUpdate != null) {
-            services.remove(findServiceById(id));
+            services.remove(toUpdate);
             service.setId(id);
             services.add(service);
         }
